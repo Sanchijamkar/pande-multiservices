@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useMemo } from "react"
+import { Suspense, useMemo, useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { useSearchParams } from "next/navigation"
@@ -85,6 +85,14 @@ const categoryColors: Record<string, string> = {
 }
 
 export default function ServicesPage() {
+  return (
+    <Suspense fallback={<ServicesPageFallback />}>
+      <ServicesPageContent />
+    </Suspense>
+  )
+}
+
+function ServicesPageContent() {
   const searchParams = useSearchParams()
   const initialCategory = searchParams.get("category") || "all"
   const [activeCategory, setActiveCategory] = useState(initialCategory)
@@ -281,6 +289,23 @@ export default function ServicesPage() {
               </a>
             </Button>
           </motion.div>
+        </div>
+      </section>
+    </div>
+  )
+}
+
+function ServicesPageFallback() {
+  return (
+    <div className="min-h-screen">
+      <section className="relative overflow-hidden bg-gradient-to-br from-primary via-primary/90 to-secondary py-16 md:py-24">
+        <div className="container relative mx-auto px-4">
+          <div className="mx-auto max-w-3xl text-center">
+            <div className="mx-auto mb-4 h-9 w-40 rounded-full bg-background/20" />
+            <div className="mx-auto mb-6 h-14 max-w-xl rounded-xl bg-background/20" />
+            <div className="mx-auto mb-8 h-7 max-w-lg rounded-lg bg-background/20" />
+            <div className="mx-auto h-14 max-w-md rounded-full bg-background" />
+          </div>
         </div>
       </section>
     </div>
